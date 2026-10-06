@@ -5,15 +5,10 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-/*
- * These names must match the names used by your team's UI
- * and Logger.
- *
- * Check common.h before final integration.
- */
+#include "../logging/sim_logger.h"
+
 #define REQUEST_QUEUE   "/pbl_core_request"
 #define RESPONSE_QUEUE  "/pbl_core_response"
-#define LOG_QUEUE       "/pbl_core_log"
 
 #define MAX_MESSAGE     256
 #define STACK_SIZE      100
@@ -126,27 +121,17 @@ void send_response(mqd_t response_queue, const char *message)
 
 
 /* =========================
-   SEND LOG TO LOGGER
-   ========================= */
-
-void send_log(mqd_t log_queue, const char *message)
-{
-    if (mq_send(log_queue,
-                message,
-                strlen(message) + 1,
-                0) == -1)
-    {
-        perror("CORE: Failed to send log");
-    }
-}
-
-
-/* =========================
    MAIN CORE PROCESS
    ========================= */
 
 int main(void)
 {
+    /*
+     * Start connection to the new Logger system.
+     */
+    log_open();
+
+
     struct mq_attr attributes;
 
     attributes.mq_flags = 0;
@@ -170,6 +155,9 @@ int main(void)
     if (request_queue == (mqd_t)-1)
     {
         perror("CORE: Cannot open request queue");
+        log_send(LOG_ERROR, SRC_CORE,
+                 "CORE: Cannot open request queue");
+        log_close();
         return 1;
     }
 
@@ -190,29 +178,11 @@ int main(void)
     {
         perror("CORE: Cannot open response queue");
 
-        mq_close(request_queue);
-
-        return 1;
-    }
-
-
-    /*
-     * Open Logger queue.
-     */
-
-    mqd_t log_queue = mq_open(
-        LOG_QUEUE,
-        O_WRONLY
-    );
-
-    if (log_queue == (mqd_t)-1)
-    {
-        perror("CORE: Cannot connect to Logger");
-
-        printf("CORE: Start the Logger process first.\n");
+        log_send(LOG_ERROR, SRC_CORE,
+                 "CORE: Cannot open response queue");
 
         mq_close(request_queue);
-        mq_close(response_queue);
+        log_close();
 
         return 1;
     }
@@ -228,6 +198,10 @@ int main(void)
     printf("Logger   : CONNECTED\n");
     printf("=================================\n");
     printf("CORE: Waiting for commands...\n");
+
+
+    log_send(LOG_INFO, SRC_CORE,
+             "CORE: Process started");
 
 
     char message[MAX_MESSAGE];
@@ -251,6 +225,10 @@ int main(void)
         if (received == -1)
         {
             perror("CORE: Failed to receive message");
+
+            log_send(LOG_ERROR, SRC_CORE,
+                     "CORE: Failed to receive message");
+
             break;
         }
 
@@ -272,10 +250,8 @@ int main(void)
                 "CORE: Shutting down"
             );
 
-            send_log(
-                log_queue,
-                "CORE: Process shutting down"
-            );
+            log_send(LOG_INFO, SRC_CORE,
+                     "CORE: Process shutting down");
 
             break;
         }
@@ -321,8 +297,9 @@ int main(void)
                 result
             );
 
-            send_log(
-                log_queue,
+            log_send(
+                LOG_INFO,
+                SRC_CPU,
                 log_message
             );
 
@@ -361,8 +338,9 @@ int main(void)
                 result
             );
 
-            send_log(
-                log_queue,
+            log_send(
+                LOG_INFO,
+                SRC_CPU,
                 log_message
             );
 
@@ -391,8 +369,9 @@ int main(void)
                     value
                 );
 
-                send_log(
-                    log_queue,
+                log_send(
+                    LOG_INFO,
+                    SRC_STACK,
                     log_message
                 );
             }
@@ -403,8 +382,9 @@ int main(void)
                     "ERROR: Stack overflow"
                 );
 
-                send_log(
-                    log_queue,
+                log_send(
+                    LOG_ERROR,
+                    SRC_STACK,
                     "ERROR: Stack overflow"
                 );
             }
@@ -441,8 +421,9 @@ int main(void)
                     value
                 );
 
-                send_log(
-                    log_queue,
+                log_send(
+                    LOG_INFO,
+                    SRC_STACK,
                     log_message
                 );
             }
@@ -453,8 +434,9 @@ int main(void)
                     "ERROR: Stack is empty"
                 );
 
-                send_log(
-                    log_queue,
+                log_send(
+                    LOG_ERROR,
+                    SRC_STACK,
                     "ERROR: Stack is empty"
                 );
             }
@@ -484,8 +466,9 @@ int main(void)
                     value
                 );
 
-                send_log(
-                    log_queue,
+                log_send(
+                    LOG_INFO,
+                    SRC_QUEUE,
                     log_message
                 );
             }
@@ -496,8 +479,9 @@ int main(void)
                     "ERROR: Queue is full"
                 );
 
-                send_log(
-                    log_queue,
+                log_send(
+                    LOG_ERROR,
+                    SRC_QUEUE,
                     "ERROR: Queue is full"
                 );
             }
@@ -534,8 +518,9 @@ int main(void)
                     value
                 );
 
-                send_log(
-                    log_queue,
+                log_send(
+                    LOG_INFO,
+                    SRC_QUEUE,
                     log_message
                 );
             }
@@ -546,8 +531,9 @@ int main(void)
                     "ERROR: Queue is empty"
                 );
 
-                send_log(
-                    log_queue,
+                log_send(
+                    LOG_ERROR,
+                    SRC_QUEUE,
                     "ERROR: Queue is empty"
                 );
             }
@@ -573,8 +559,9 @@ int main(void)
             message
         );
 
-        send_log(
-            log_queue,
+        log_send(
+            LOG_ERROR,
+            SRC_CORE,
             log_message
         );
     }
@@ -586,7 +573,14 @@ int main(void)
 
     mq_close(request_queue);
     mq_close(response_queue);
-    mq_close(log_queue);
+
+    log_send(
+        LOG_INFO,
+        SRC_CORE,
+        "CORE: Shutdown complete"
+    );
+
+    log_close();
 
 
     printf("\nCORE: Shutdown complete.\n");
