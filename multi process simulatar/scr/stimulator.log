@@ -1,1 +1,24 @@
+3-PROCESS OS SIMULATOR
+
+[UI] Enter command: start
+[CORE] Received command: start
+[CORE] CPU execution started.
+[LOGGER] Core executed command: start
+
+[UI] Enter command: status
+[CORE] CPU Status: RUNNING
+[CORE] Memory: ACTIVE
+[CORE] Stack: ACTIVE
+[CORE] Queue: ACTIVE
+[LOGGER] Core executed command: status
+
+[UI] Enter command: stop
+[CORE] CPU execution stopped.
+[LOGGER] Core executed command: stop
+
+[UI] Enter command: exit
+[CORE] Core Process shutting down.
+[LOGGER] Core executed command: exit
+
+All processes terminated successfully.
 
