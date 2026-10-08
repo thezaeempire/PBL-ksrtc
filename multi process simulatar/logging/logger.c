@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "log_msg.h"
+#include "sim_logger.h"
 
 static volatile sig_atomic_t running = 1;
 static void on_signal(int s) { (void)s; running = 0; }

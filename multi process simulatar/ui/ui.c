@@ -4,7 +4,7 @@
 #include <mqueue.h>
 #include <fcntl.h>
 
-#include "../common.h"
+#include "common.h"
 
 int main(void)
 {

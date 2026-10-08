@@ -1,0 +1,28 @@
+[2026-10-08 14:32:11.686] [INFO ] [CORE ] CORE: Process started
+[2026-10-08 16:38:47.336] [INFO ] [CORE ] CORE: Process started
+# logger stopped: messages=1 avg_latency_us=205.3 max_latency_us=205.3
+[2026-10-08 16:41:58.105] [INFO ] [CORE ] CORE: Process started
+[2026-10-08 16:42:10.813] [INFO ] [CPU  ] ADD 10 + 20 = 30
+[2026-10-08 16:42:19.381] [INFO ] [CORE ] CORE: Process shutting down
+[2026-10-08 16:42:19.382] [INFO ] [CORE ] CORE: Shutdown complete
+# logger stopped: messages=4 avg_latency_us=478.1 max_latency_us=775.4
+[2026-10-08 16:49:38.987] [INFO ] [CORE ] CORE: Process started
+[2026-10-08 16:49:47.074] [INFO ] [CPU  ] ADD 10 + 20 = 30
+[2026-10-08 16:50:02.857] [INFO ] [CORE ] CORE: Process shutting down
+[2026-10-08 16:50:02.858] [INFO ] [CORE ] CORE: Shutdown complete
+# logger stopped: messages=4 avg_latency_us=357.2 max_latency_us=535.1
+[2026-10-08 16:53:51.090] [INFO ] [CORE ] CORE: Process started
+[2026-10-08 16:53:51.091] [INFO ] [CPU  ] ADD 10 + 20 = 30
+[2026-10-08 16:53:51.091] [INFO ] [CORE ] CORE: Process shutting down
+[2026-10-08 16:53:51.091] [INFO ] [CORE ] CORE: Shutdown complete
+# logger stopped: messages=4 avg_latency_us=695.6 max_latency_us=875.6
+[2026-10-08 16:55:31.145] [INFO ] [CORE ] CORE: Process started
+[2026-10-08 16:55:42.593] [INFO ] [CPU  ] ADD 10 + 20 = 30
+[2026-10-08 16:55:53.724] [INFO ] [CORE ] CORE: Process shutting down
+[2026-10-08 16:55:53.724] [INFO ] [CORE ] CORE: Shutdown complete
+# logger stopped: messages=4 avg_latency_us=493.3 max_latency_us=863.9
+[2026-10-08 16:56:46.579] [INFO ] [CORE ] CORE: Process started
+[2026-10-08 16:56:46.580] [INFO ] [CPU  ] ADD 10 + 20 = 30
+[2026-10-08 16:56:46.580] [INFO ] [CORE ] CORE: Process shutting down
+[2026-10-08 16:56:46.580] [INFO ] [CORE ] CORE: Shutdown complete
+# logger stopped: messages=4 avg_latency_us=319.7 max_latency_us=428.2
