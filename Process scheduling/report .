@@ -1,0 +1,31 @@
+markdown
+
+# CPU Process Scheduling Simulator
+## 1. Introduction
+Explain CPU scheduling and the purpose of the simulator.
+
+## 2. Algorithms Implemented
+- FCFS
+- Non-preemptive SJF
+- Preemptive SJF (SRTF)
+- Non-preemptive Priority
+- Preemptive Priority
+- Round Robin
+
+## 3. Performance Metrics
+Explain waiting time, turnaround time, response time,
+average waiting time, average turnaround time,
+and CPU utilization.
+
+## 4. Test Cases
+Include at least three datasets, Gantt charts,
+and calculated output for each scheduling algorithm.
+
+## 5. Performance Analysis
+Compare the average waiting and turnaround times.
+Explain the effects of preemption and time quantum.
+
+## 6. Conclusion
+Summarize the results and the importance of
+choosing an appropriate CPU scheduling algorithm.
+
