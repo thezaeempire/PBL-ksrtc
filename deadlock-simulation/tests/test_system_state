@@ -1,0 +1,31 @@
+ #include <assert.h>
+#include <stdio.h>
+#include "../core/system_state.h"
+
+int main(void)
+{
+    SystemState state;
+    state_init(&state);
+
+    assert(state_validate(&state) == 1);
+    assert(state.process_count == 5);
+    assert(state.resource_count == 3);
+
+    /* Classic Banker's example: Available = (3, 3, 2). */
+    assert(state.available[0] == 3);
+    assert(state.available[1] == 3);
+    assert(state.available[2] == 2);
+
+    /* Need of P0 = (7, 4, 3). */
+    assert(state_get_need(&state, 0, 0) == 7);
+    assert(state_get_need(&state, 0, 1) == 4);
+    assert(state_get_need(&state, 0, 2) == 3);
+
+    assert(state_get_need(&state, -1, 0) == -1);
+
+    puts("PASS: system state tests");
+    return 0;
+}
+
+
+    /* P1 requests one unit of R0. */
