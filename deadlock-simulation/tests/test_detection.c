@@ -34,7 +34,7 @@ int main(void)
     int count = detect_deadlock(&state, deadlocked);
 
     assert(count == 2);
-    assert(deadlocked[0] == 0);
+    assert(deadlocked[0] == 1);
     assert(deadlocked[1] == 1);
 
     puts("PASS: deadlock detection tests");

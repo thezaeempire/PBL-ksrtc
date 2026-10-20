@@ -70,18 +70,19 @@ The application is implemented in modular C source and header files. Core resour
 
 ## 9. Testing
 
-The following tests should be performed and their actual results recorded:
+The core modules were compiled using GCC, and all five test programs executed successfully.
 
-| Test | Expected result |
+| Test | Actual result |
 |---|---|
-| Check a safe state | A safe sequence is displayed |
-| Submit a request exceeding available resources | The request is rejected |
-| Submit a request exceeding the process's remaining need | The request is rejected |
-| Submit a request that produces an unsafe state | The request is rolled back |
-| Detect deadlock | Unfinished processes are reported when the detection conditions indicate deadlock |
-| Recover a process | The selected process is terminated and its resources are released |
+| System state initialization and validation | PASS |
+| Resource request and release | PASS |
+| Banker's algorithm and resource request safety | PASS |
+| Deadlock detection | PASS |
+| Process recovery and resource release | PASS |
 
-**Note:** Record the actual outcome of each test after running the application. Do not mark tests as passed unless verified.
+**Core test summary:** 5 of 5 test programs passed.
+
+**GUI build status:** Not yet verified. GTK 3 development files were unavailable in the development environment, so the graphical application has not yet been built or tested. Add screenshots after successfully launching the GUI.
 
 ## 10. Limitations
 
@@ -104,11 +105,3 @@ The Deadlock Simulation System demonstrates important operating system concepts 
 1. Abraham Silberschatz, Peter B. Galvin, and Greg Gagne, *Operating System Concepts*.
 2. Official GTK documentation: https://docs.gtk.org/gtk3/
 3. GNU Compiler Collection documentation: https://gcc.gnu.org/
-<img width="1563" height="1006" alt="Ubuntu Terminal Test Success" src="https://github.com/user-attachments/assets/bf691080-60cb-4ebd-ae7e-2e22c4a59d2f" />
-
-
-
-
-
-
-

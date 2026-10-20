@@ -1,7 +1,7 @@
 #ifndef DETECTION_H
 #define DETECTION_H
 
-#include "../system_state.h"
+#include "../core/system_state.h"
 
 int detect_deadlock(
     const SystemState *state,

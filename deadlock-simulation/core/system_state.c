@@ -43,8 +43,8 @@ void state_init(SystemState *state)
         {4, 3, 3}
     };
 
-    memcpy(state->allocation, allocation, sizeof(allocation));
-    memcpy(state->maximum, maximum, sizeof(maximum));
+    for (int i = 0; i < 5; i++) memcpy(state->allocation[i], allocation[i], sizeof(allocation[i]));
+    for (int i = 0; i < 5; i++) memcpy(state->maximum[i], maximum[i], sizeof(maximum[i]));
 
     state_recalculate_available(state);
 }

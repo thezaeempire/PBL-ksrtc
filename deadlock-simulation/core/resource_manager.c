@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include "resource_manager.h"
 #include "../algorithms/bankers.h"
 

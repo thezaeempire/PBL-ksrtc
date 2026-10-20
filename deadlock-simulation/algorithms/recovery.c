@@ -5,7 +5,7 @@ int recover_process(SystemState *state, int process)
     if (!state_validate(state))
         return 0;
 
-    if (process < 0 || process >= state->process_count)
+    if (process < 0 || process >= state->process_count || state->terminated[process])
         return 0;
 
     /*
@@ -18,6 +18,7 @@ int recover_process(SystemState *state, int process)
         state->request[process][j] = 0;
     }
 
+    state->terminated[process] = 1;
     state_recalculate_available(state);
 
     return 1;

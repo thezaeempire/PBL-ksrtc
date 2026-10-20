@@ -40,20 +40,20 @@ $(TARGET): $(SOURCES)
 run: $(TARGET)
 	./$(TARGET)
 
-test_system_state: tests/test_system_state.c core/system_state.c
-	$(CC) $(CFLAGS) $^ -o $@
+test_system_state: tests/test_system_state core/system_state.c
+	$(CC) $(CFLAGS) -x c $^ -o $@
 
-test_resource_manager: tests/test_resource_manager.c $(CORE) $(ALGORITHMS)
-	$(CC) $(CFLAGS) $^ -o $@
+test_resource_manager: tests/test_resource_manager $(CORE) $(ALGORITHMS)
+	$(CC) $(CFLAGS) -x c $^ -o $@
 
 test_bankers: tests/test_bankers.c core/system_state.c algorithms/bankers.c
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) -x c $^ -o $@
 
 test_detection: tests/test_detection.c core/system_state.c algorithms/detection.c
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) -x c $^ -o $@
 
 test_recovery: tests/test_recovery.c core/system_state.c algorithms/recovery.c
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) -x c $^ -o $@
 
 test: $(TEST_BINS)
 	./test_system_state
