@@ -1,0 +1,36 @@
+#include <assert.h>
+#include <stdio.h>
+#include "../core/system_state.h"
+#include "../core/resource_manager.h"
+
+int main(void)
+{
+    SystemState state;
+    state_init(&state);
+
+    /* P1 requests one unit of R0. */
+    int request1[] = {1, 0, 0};
+
+    ResourceResult result =
+        resource_request(&state, 1, request1);
+
+    assert(result == RESOURCE_GRANTED);
+    assert(state.allocation[1][0] == 3);
+    assert(state.available[0] == 2);
+
+    /* Release the resource back to the system. */
+    int release[] = {1, 0, 0};
+
+    assert(resource_release(&state, 1, release) == 1);
+    assert(state.allocation[1][0] == 2);
+    assert(state.available[0] == 3);
+
+    /* Request exceeds P1's remaining need. */
+    int invalid_request[] = {2, 0, 0};
+
+    result = resource_request(&state, 1, invalid_request);
+    assert(result == RESOURCE_INVALID);
+
+    puts("PASS: resource manager tests");
+    return 0;
+}
