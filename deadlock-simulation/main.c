@@ -1,28 +1,35 @@
+
 #include <gtk/gtk.h>
-#include "system_state.h"
+#include <stdio.h>
+
+#include "core/system_state.h"
 #include "gui/dashboard.h"
 
-static SystemState state;
-
-static void activate(GtkApplication *application, gpointer data)
+int main(int argc, char *argv[])
 {
-    dashboard_show(application, &state);
-}
+    gtk_init(&argc, &argv);
 
-int main(int argc, char **argv)
-{
+    SystemState state;
     state_init(&state);
 
-    GtkApplication *application = gtk_application_new(
-        "org.college.deadlocksimulator",
-        G_APPLICATION_FLAGS_NONE);
+    if (!state_validate(&state)) {
+        fprintf(stderr, "Error: Invalid initial system state.\n");
+        return 1;
+    }
 
-    g_signal_connect(application, "activate",
-                     G_CALLBACK(activate), NULL);
+    /*
+     * The dashboard receives the shared state so that
+     * the GUI can display and operate on the simulation.
+     */
+    GtkWidget *window = create_dashboard(&state);
 
-    int status = g_application_run(
-        G_APPLICATION(application), argc, argv);
+    if (window == NULL) {
+        fprintf(stderr, "Error: Could not create dashboard.\n");
+        return 1;
+    }
 
-    g_object_unref(application);
-    return status;
+    gtk_widget_show_all(window);
+    gtk_main();
+
+    return 0;
 }
