@@ -104,3 +104,11 @@ The Deadlock Simulation System demonstrates important operating system concepts 
 1. Abraham Silberschatz, Peter B. Galvin, and Greg Gagne, *Operating System Concepts*.
 2. Official GTK documentation: https://docs.gtk.org/gtk3/
 3. GNU Compiler Collection documentation: https://gcc.gnu.org/
+<img width="1563" height="1006" alt="Ubuntu Terminal Test Success" src="https://github.com/user-attachments/assets/bf691080-60cb-4ebd-ae7e-2e22c4a59d2f" />
+
+
+
+
+
+
+
