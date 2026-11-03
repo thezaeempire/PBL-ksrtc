@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
+
+#define PORT 8080
+
+int main(void) {
+    int srv = socket(AF_INET, SOCK_STREAM, 0);
+    if (srv < 0) { perror("socket"); exit(1); }
+
+    int opt = 1;
+    setsockopt(srv, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+
+    struct sockaddr_in addr = {0};
+    addr.sin_family = AF_INET;
+    addr.sin_addr.s_addr = INADDR_ANY;
+    addr.sin_port = htons(PORT);
+
+    if (bind(srv, (struct sockaddr *)&addr, sizeof(addr)) < 0) { perror("bind"); exit(1); }
+    if (listen(srv, 5) < 0) { perror("listen"); exit(1); }
+    printf("Server listening on port %d...\n", PORT);
+
+    int cli = accept(srv, NULL, NULL);
+    if (cli < 0) { perror("accept"); exit(1); }
+
+    char buf[256];
+    ssize_t n = recv(cli, buf, sizeof(buf) - 1, 0);
+    if (n > 0) {
+        buf[n] = '\0';
+        printf("Server received: %s\n", buf);
+        const char *reply = "Hello from server!";
+        send(cli, reply, strlen(reply), 0);
+    }
+    close(cli);
+    close(srv);
+    return 0;
+}
