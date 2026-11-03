@@ -98,4 +98,3 @@ void sjf_preemptive(Process input[], int n) {
     printf("\n=== Preemptive SJF (SRTF) ===\n");
     print_results(p, n, g, count);
 }
-
